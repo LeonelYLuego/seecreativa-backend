@@ -1,9 +1,9 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace seecreativa_backend.Core
+namespace seecreativa_backend.Core.MongoDb
 {
-    public class MongoDbRepository<T> : IRepository<T> where T : EntityBase
+    public class MongoDbRepository<T, TCreateDto, TUpdateDto> : IRepository<T, TCreateDto, TUpdateDto> where T : EntityBase where TCreateDto : CreateDtoBase<T> where TUpdateDto : UpdateDtoBase<T>
     {
         protected readonly IMongoCollection<T> _collection;
 
@@ -12,8 +12,9 @@ namespace seecreativa_backend.Core
             _collection = collection;
         }
 
-        public virtual async Task<T> CreateAsync(T entity)
+        public virtual async Task<T> CreateAsync(TCreateDto createDto)
         {
+            var entity = createDto.ToEntity();
             await _collection.InsertOneAsync(entity);
             return (await GetByIdAsync(entity.Id.ToString()))!;
         }
@@ -30,16 +31,17 @@ namespace seecreativa_backend.Core
             return entity;
         }
 
-        public virtual async Task<T?> UpdateAsync(T entity)
+        public virtual async Task<T?> UpdateByIdAsync(string id, TUpdateDto updateDto)
         {
-            var foundEntity = await _collection.Find(x => x.Id == GetObjectId(entity.Id.ToString())).FirstOrDefaultAsync();
-            if (foundEntity == null) return null;
+            var entity = await GetByIdAsync(id);
+            if(entity == null) return null;
+            var updatedUser = updateDto.ToEntity(entity);
             var filter = Builders<T>.Filter.Eq(x => x.Id, entity.Id);
             await _collection.ReplaceOneAsync(filter, entity);
-            return await GetByIdAsync(entity.Id.ToString());
+            return await GetByIdAsync(id);
         }
 
-        public virtual async Task<bool> DeleteAsync(string id)
+        public virtual async Task<bool> DeleteByIdAsync(string id)
         {
             var entity = await _collection.Find(x => x.Id == GetObjectId(id)).FirstOrDefaultAsync();
             if (entity == null) return false;

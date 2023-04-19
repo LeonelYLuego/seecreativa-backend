@@ -1,4 +1,4 @@
-﻿namespace seecreativa_backend.Core
+﻿namespace seecreativa_backend.Core.MongoDb
 {
     public class MongoDbSettings
     {

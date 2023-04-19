@@ -3,7 +3,7 @@ using MongoDB.Bson;
 
 namespace seecreativa_backend.Core
 {
-    public class EntityBase
+    public abstract class EntityBase
     {
         [BsonId]
         public required ObjectId Id { get; set; }

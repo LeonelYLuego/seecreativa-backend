@@ -7,10 +7,11 @@ namespace seecreativa_backend.Users.Entities
     {
         public required string Username { get; set; }
         public required string PasswordHash { get; set; }
+        public bool IsAdmin { get; set; } = false;
 
         public static string HashPassword(string password)
         {
-            return "hashed" + password;
+            return BCrypt.Net.BCrypt.HashPassword(password);
         }
 
         public UserResponseDto ToResponse()
@@ -19,6 +20,7 @@ namespace seecreativa_backend.Users.Entities
             {
                 Id = Id.ToString(),
                 Username = Username,
+                IsAdmin = IsAdmin,
             };
         }
     }

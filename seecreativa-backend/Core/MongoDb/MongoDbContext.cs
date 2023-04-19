@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
-namespace seecreativa_backend.Core
+namespace seecreativa_backend.Core.MongoDb
 {
     public class MongoDbContext<T>
     {
