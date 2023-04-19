@@ -14,6 +14,11 @@ namespace seecreativa_backend.Users.Entities
             return BCrypt.Net.BCrypt.HashPassword(password);
         }
 
+        public static bool ComparePasswords(string passwordHash, string password)
+        {
+            return BCrypt.Net.BCrypt.Verify(password, passwordHash);
+        }
+
         public UserResponseDto ToResponse()
         {
             return new UserResponseDto

@@ -13,7 +13,7 @@ namespace seecreativa_backend.Core.MongoDb
             _database = client.GetDatabase(settings.Value.Database);
         }
 
-        protected IMongoCollection<T> GetCollection<T>(string name)
+        protected IMongoCollection<T> GetCollection(string name)
         {
             return _database.GetCollection<T>(name);
         }

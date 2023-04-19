@@ -9,6 +9,6 @@ namespace seecreativa_backend.Users.Persistance
     {
         public UsersContext(IOptions<MongoDbSettings> settings) : base(settings) { }
 
-        public IMongoCollection<User> Users => GetCollection<User>("users");
+        public IMongoCollection<User> Users => GetCollection("users");
     }
 }
