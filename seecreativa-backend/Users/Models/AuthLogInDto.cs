@@ -1,9 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace seecreativa_backend.Users.Models
-{
-    public class AuthLogInDto
-    {
+namespace seecreativa_backend.Users.Models {
+    public class AuthLogInDto {
         [Required]
         public required string Username { get; set; }
 

@@ -1,18 +1,18 @@
 using Microsoft.OpenApi.Models;
+using seecreativa_backend.Classifications;
+using seecreativa_backend.Clients;
 using seecreativa_backend.Core.MongoDb;
 using seecreativa_backend.Core.Token;
+using seecreativa_backend.Prices;
 using seecreativa_backend.Users;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
+builder.Services.AddSwaggerGen(options => {
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
         Type = SecuritySchemeType.Http,
         Scheme = "bearer",
         BearerFormat = "JWT",
@@ -42,6 +42,9 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoConnection"));
 builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("Token"));
 builder.Services.AddUsers();
+builder.Services.AddClients();
+builder.Services.AddClassifications();
+builder.Services.AddPrices();
 
 var app = builder.Build();
 

@@ -10,37 +10,29 @@ using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 
-namespace seecreativa_backend.Users.Repositories
-{
-    public interface IAuthRepository
-    {
+namespace seecreativa_backend.Users.Repositories {
+    public interface IAuthRepository {
         public Task<AuthResponseDto?> LogIn(AuthLogInDto logInDto);
 
         public User? Logged(string token);
     }
 
-    public class AuthRepository : IAuthRepository
-    {
+    public class AuthRepository : IAuthRepository {
         private readonly IOptions<TokenSettings> _tokenSettings;
         private readonly IMongoCollection<User> _collection;
 
-        public AuthRepository(IOptions<MongoDbSettings> settings, IOptions<TokenSettings> tokenSettings)
-        {
+        public AuthRepository(IOptions<MongoDbSettings> settings, IOptions<TokenSettings> tokenSettings) {
             _collection = new UsersContext(settings).Users;
             _tokenSettings = tokenSettings;
         }
 
-        public async Task<AuthResponseDto?> LogIn(AuthLogInDto logInDto)
-        {
+        public async Task<AuthResponseDto?> LogIn(AuthLogInDto logInDto) {
             var user = await _collection.Find(x => x.Username == logInDto.Username).FirstOrDefaultAsync();
-            if (user != null)
-            {
-                if (User.ComparePasswords(user.PasswordHash, logInDto.Password))
-                {
+            if (user != null) {
+                if (User.ComparePasswords(user.PasswordHash, logInDto.Password)) {
                     var tokenHandler = new JwtSecurityTokenHandler();
                     var key = Encoding.UTF8.GetBytes(_tokenSettings.Value.TokenKey);
-                    var tokenDescriptor = new SecurityTokenDescriptor
-                    {
+                    var tokenDescriptor = new SecurityTokenDescriptor {
                         Subject = new ClaimsIdentity(new Claim[]
                         {
                             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
@@ -49,8 +41,7 @@ namespace seecreativa_backend.Users.Repositories
                         SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                     };
                     var token = tokenHandler.CreateToken(tokenDescriptor);
-                    return new AuthResponseDto
-                    {
+                    return new AuthResponseDto {
                         Token = tokenHandler.WriteToken(token),
                         User = user.ToResponse(),
                     };
@@ -59,15 +50,12 @@ namespace seecreativa_backend.Users.Repositories
             return null;
         }
 
-        public User? Logged(string token)
-        {
-            try
-            {
+        public User? Logged(string token) {
+            try {
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.UTF8.GetBytes(_tokenSettings.Value.TokenKey);
 
-                tokenHandler.ValidateToken(token, new TokenValidationParameters
-                {
+                tokenHandler.ValidateToken(token, new TokenValidationParameters {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
@@ -81,8 +69,7 @@ namespace seecreativa_backend.Users.Repositories
                 var user = _collection.Find(x => x.Id.ToString() == userId).FirstOrDefault();
 
                 if (user != null) return user;
-            }
-            catch (Exception) { }
+            } catch (Exception) { }
             return null;
         }
     }
