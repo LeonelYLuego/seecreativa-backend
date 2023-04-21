@@ -25,10 +25,12 @@ namespace seecreativa_backend.Clients.Models {
 
         public override Client ToEntity(Client entity) {
             if (Name != null) entity.Name = Name;
-            if (RFC != null) entity.RFC = RFC;
-            if (Email != null) entity.Email = Email;
-            if (Address != null) entity.Address = Address;
-            if (Phone != null) entity.Phone = Phone;
+
+            entity.RFC = RFC;
+            entity.Email = Email;
+            entity.Address = Address;
+            entity.Phone = Phone;
+
             return entity;
         }
     }

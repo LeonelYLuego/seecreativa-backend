@@ -4,6 +4,7 @@ using seecreativa_backend.Clients;
 using seecreativa_backend.Core.MongoDb;
 using seecreativa_backend.Core.Token;
 using seecreativa_backend.Prices;
+using seecreativa_backend.Products;
 using seecreativa_backend.Users;
 using System.Reflection;
 
@@ -41,10 +42,12 @@ builder.Services.AddSwaggerGen(options => {
 
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoConnection"));
 builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("Token"));
+
 builder.Services.AddUsers();
 builder.Services.AddClients();
 builder.Services.AddClassifications();
 builder.Services.AddPrices();
+builder.Services.AddProducts();
 
 var app = builder.Build();
 

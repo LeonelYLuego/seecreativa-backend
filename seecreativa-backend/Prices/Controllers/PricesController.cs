@@ -96,6 +96,5 @@ namespace seecreativa_backend.Prices.Controllers {
             if (!result) return NotFound($"Price with the Id {id} not found");
             return Ok(result);
         }
-
     }
 }
