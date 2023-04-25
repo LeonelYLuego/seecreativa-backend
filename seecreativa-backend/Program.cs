@@ -3,6 +3,7 @@ using seecreativa_backend.Classifications;
 using seecreativa_backend.Clients;
 using seecreativa_backend.Core.MongoDb;
 using seecreativa_backend.Core.Token;
+using seecreativa_backend.Orders;
 using seecreativa_backend.Prices;
 using seecreativa_backend.Products;
 using seecreativa_backend.Users;
@@ -48,6 +49,7 @@ builder.Services.AddClients();
 builder.Services.AddClassifications();
 builder.Services.AddPrices();
 builder.Services.AddProducts();
+builder.Services.AddOrders();
 
 var app = builder.Build();
 
