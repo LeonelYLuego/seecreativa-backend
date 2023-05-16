@@ -46,10 +46,11 @@ namespace seecreativa_backend.Products.Controllers {
         /// <response code="401">If the authentication token is invalid.</response>
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<ProductResponseDto>>> ListBy() {
-            var products = await _productsRepository.GetAllAsync();
-            var responseProducts = products.Select(u => u.ToResponse()).ToList();
-            return Ok(responseProducts);
+        public async Task<ActionResult<IEnumerable<ProductWithClassificationResponseDto>>> ListBy(string? q) {
+            var products = await _productsRepository.GetAllAsync(q);
+            //var responseProducts = products.Select(u => u.ToResponse()).ToList();
+            //return Ok(responseProducts);
+            return Ok(products);
         }
 
         /// <summary>
