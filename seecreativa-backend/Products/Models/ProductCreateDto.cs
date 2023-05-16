@@ -20,7 +20,7 @@ namespace seecreativa_backend.Products.Models {
         public required float Weight { get; set; }
 
         [Range(0, float.MaxValue)]
-        public float? With { get; set; }
+        public float? Width { get; set; }
 
         [Range(0, float.MaxValue)]
         public float? Length { get; set; }
@@ -42,7 +42,7 @@ namespace seecreativa_backend.Products.Models {
                 Name = Name,
                 Code = Code,
                 Weight = Weight,
-                With = With,
+                Width = Width,
                 Length = Length,
                 Height = Height,
                 Diameter = Diameter,

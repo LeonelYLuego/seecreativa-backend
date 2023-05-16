@@ -16,7 +16,7 @@ namespace seecreativa_backend.Products.Models {
         public float? Weight { get; set; }
 
         [Range(0, float.MaxValue)]
-        public float? With { get; set; }
+        public float? Width { get; set; }
 
         [Range(0, float.MaxValue)]
         public float? Length { get; set; }
@@ -37,7 +37,7 @@ namespace seecreativa_backend.Products.Models {
             if (Height != null) entity.Height = (float)Height;
             if (ClassificationId != null) entity.ClassificationId = ClassificationId;
 
-            entity.With = With;
+            entity.Width = Width;
             entity.Length = Length;
             entity.Diameter = Diameter;
 
