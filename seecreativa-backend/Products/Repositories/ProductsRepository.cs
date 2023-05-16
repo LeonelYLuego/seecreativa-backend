@@ -20,6 +20,10 @@ namespace seecreativa_backend.Products.Repositories {
             _classificationsRepository = classificationsRepository;
         }
 
+        public override async Task<IEnumerable<Product>> GetAllAsync() {
+            return await _collection.Find(x => true).SortBy(x => x.Code).ToListAsync();
+        }
+
         public async Task<Product?> GetByCodeAsync(string code) {
             var entity = await _collection.Find(x => x.Code == code).FirstOrDefaultAsync();
             if (entity == null) return null;
